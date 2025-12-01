@@ -1,0 +1,9 @@
+Django
+celery
+redis
+gunicorn
+django-cors-headers
+djangorestframework
+djangorestframework-simplejwt
+django-celery-results
+django-celery-beat
