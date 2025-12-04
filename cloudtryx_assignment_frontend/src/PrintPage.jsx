@@ -19,13 +19,14 @@ export const PrintPage = ()=>{
         setBillingData([...data]);
         setInputData({product_name:'',qty:1,price:0,amount:0});
         setAction('add');
+        calculatePrice();
     }
 
     const deleteItem = (ind)=>{
         setBillingData(billingData.filter((item,key)=>key!=ind));
     }
-    
-    const finalPrice = useMemo(()=>{
+
+    const calculatePrice = ()=>{
         let tot_qty=0;
         let tot_price=0;
         let tot_amount=0;
@@ -37,6 +38,10 @@ export const PrintPage = ()=>{
         });
         after_gst = tot_amount + tot_amount*0.18
         return {tot_qty,tot_price,tot_amount,after_gst}
+    }
+
+    const finalPrice = useMemo(()=>{
+        return calculatePrice();
     },[billingData]);
 
     const printBill = ()=>{
@@ -62,7 +67,7 @@ export const PrintPage = ()=>{
                     </label>
                     <label htmlFor="price">
                         <span>Price: </span>
-                        <input type="number" id="price" name="price" value={inputData.price} onChange={(e)=>setInputData({...inputData,[e.target.name]:parseInt(e.target.value),amount:inputData.qty*e.target.value})} placeholder="Price"/>
+                        <input type="number" id="price" name="price" value={inputData.price} onChange={(e)=>setInputData({...inputData,[e.target.name]:parseInt(e.target.value),amount:inputData.qty*parseInt(e.target.value)})} placeholder="Price"/>
                     </label>
                     {
                         action=='add'?<button onClick={handleInput}>Add Item</button>:
